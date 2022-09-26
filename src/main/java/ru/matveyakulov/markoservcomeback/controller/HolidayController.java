@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/holidays")
+@CrossOrigin
 public class HolidayController {
 
     private final RestService restService;
