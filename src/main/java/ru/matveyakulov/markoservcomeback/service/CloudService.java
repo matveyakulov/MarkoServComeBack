@@ -8,6 +8,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import ru.matveyakulov.markoservcomeback.factory.AmazonClientFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,24 +17,12 @@ import java.io.IOException;
 
 public class CloudService {
 
-    private static final String accessStaticKeyId = "YCAJEWu4rdSQiRA4krxNmRih0";
-    private static final String accessStaticKey = "YCO4nl1Nqp4XoqUIsumxrN9PQPHp20GsdeoEzu3h";
-
     private static final String bucketName = "holidaybucket";
     private static final String fileName = "holidays";
 
     public static void uploadFile(String path) {
         try {
-            AWSCredentials credentials = new BasicAWSCredentials(accessStaticKeyId, accessStaticKey);
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                    .withEndpointConfiguration(
-                            new AmazonS3ClientBuilder.EndpointConfiguration(
-                                    "storage.yandexcloud.net", "ru-central1"
-                            )
-                    )
-                    .build();
-
+            AmazonS3 s3Client = AmazonClientFactory.getClient();
             PutObjectRequest request = new PutObjectRequest(bucketName, fileName, new File(path));
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -46,15 +35,7 @@ public class CloudService {
 
     public static void getFile() {
         try {
-            AWSCredentials credentials = new BasicAWSCredentials(accessStaticKeyId, accessStaticKey);
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                    .withEndpointConfiguration(
-                            new AmazonS3ClientBuilder.EndpointConfiguration(
-                                    "storage.yandexcloud.net", "ru-central1"
-                            )
-                    )
-                    .build();
+            AmazonS3 s3Client = AmazonClientFactory.getClient();
 
             GetObjectRequest request = new GetObjectRequest(bucketName, fileName);
 
