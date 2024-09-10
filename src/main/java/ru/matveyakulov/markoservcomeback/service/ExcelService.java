@@ -30,9 +30,10 @@ public class ExcelService {
                 sheet = workbook.createSheet("Holidays");
                 sheet.setColumnWidth(0, 4000);
                 sheet.setColumnWidth(1, 4000);
-                sheet.setColumnWidth(2, 20000);
+                sheet.setColumnWidth(2, 30000);
+                sheet.setColumnWidth(3, 4000);
                 Row header = sheet.createRow(0);
-                List<String> fields = List.of("month", "day", "value");
+                List<String> fields = List.of("month", "day", "value", "datetime");
                 for (int i = 0; i < fields.size(); i++) {
                     Cell headerCell = header.createCell(i);
                     headerCell.setCellValue(fields.get(i));
@@ -49,6 +50,8 @@ public class ExcelService {
                 day.setCellValue(holiday.getDay());
                 Cell value = row.createCell(2);
                 value.setCellValue(holiday.getValue());
+                Cell value2 = row.createCell(3);
+                value2.setCellValue(holiday.getValue());
             }
 
             FileOutputStream outputStream = new FileOutputStream(fileLocation);
